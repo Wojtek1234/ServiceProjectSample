@@ -1,11 +1,15 @@
 package pl.wojtek.serviceprojectsample;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.util.Calendar;
 
 
 public class MyActivity extends Activity {
@@ -37,9 +41,13 @@ public class MyActivity extends Activity {
     }
 
     public void clickButton(View view) {
-        Intent intent =new Intent(this,UploadService.class);
+     /*   Intent intent =new Intent(this,UploadService.class);
         intent.putExtra("where","Suped Duper");
-        startService(intent);
+        startService(intent);*/
+        AlarmManager alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
+        Intent intent1 = new Intent(this, MyStartServiceReciver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(),1000*5,broadcast);
 
     }
 }

@@ -22,7 +22,9 @@
             android:exported="false">
 
             </service>
-
+        <receiver android:name=".MyStartServiceReciver"/>
+        <service android:name=".CheesesService"
+            android:exported="false"/>
     </application>
 
 </manifest>
