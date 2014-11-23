@@ -2,6 +2,7 @@ package pl.wojtek.serviceprojectsample;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 
 import java.util.ArrayList;
@@ -16,9 +17,13 @@ import hugo.weaving.DebugLog;
 public class CheesesService extends Service {
 
 
-    private String[] cheese=CheeseClass.CHEESES;
-    private List<String> stringList=new ArrayList<String>();
-    private Random randrom=new Random();
+    private String[] cheese = CheeseClass.CHEESES;
+
+
+    private List<String> stringList = new ArrayList<String>();
+    private Random randrom = new Random();
+    private final IBinder iBinder=new MyBinder();
+
     @Override
     @DebugLog
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -28,8 +33,20 @@ public class CheesesService extends Service {
         return START_NOT_STICKY;
     }
 
+    class MyBinder extends Binder {
+        CheesesService getService(){
+            return CheesesService.this;
+        }
+    }
+
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return iBinder;
+    }
+
+
+    public List<String> getStringList() {
+        return stringList;
     }
 }
